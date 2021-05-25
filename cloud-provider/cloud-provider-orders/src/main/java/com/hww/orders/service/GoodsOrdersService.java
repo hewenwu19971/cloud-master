@@ -15,5 +15,5 @@ public interface GoodsOrdersService {
      Integer addGoodsOrder(BsOrderGoods bsOrderGoods);
      Integer addOrder(BsOrders bsOrders);
 
-    Object findOrderOrdersbByOrderNo(String toString);
+    BsOrderGoods findOrderOrdersbByOrderNo(String toString);
 }

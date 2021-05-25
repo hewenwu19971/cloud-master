@@ -16,7 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Component
 @Slf4j
@@ -48,7 +51,5 @@ public class OrderSender {
         log.info("生产者发送消息,Exchange={}", "routingkey={}", RabbitOrderConfig.NORMAL_EXCHANGE,
                 RabbitOrderConfig.NORMAL_ROUTINGKEY);
     }
-
-    //应答机制
 
 }

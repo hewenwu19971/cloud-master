@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/cloud-common/cloud-common.iml" filepath="$PROJECT_DIR$/cloud-common/cloud-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cloud-common/cloud-common-base/cloud-common-base.iml" filepath="$PROJECT_DIR$/cloud-common/cloud-common-base/cloud-common-base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cloud-eruake/cloud-eruake.iml" filepath="$PROJECT_DIR$/cloud-eruake/cloud-eruake.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cloud-gateway/cloud-gateway.iml" filepath="$PROJECT_DIR$/cloud-gateway/cloud-gateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cloud-master.iml" filepath="$PROJECT_DIR$/cloud-master.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cloud-provider/cloud-provider.iml" filepath="$PROJECT_DIR$/cloud-provider/cloud-provider.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cloud-provider/cloud-provider-gas/cloud-provider-gas.iml" filepath="$PROJECT_DIR$/cloud-provider/cloud-provider-gas/cloud-provider-gas.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cloud-provider/cloud-provider-orders/cloud-provider-orders.iml" filepath="$PROJECT_DIR$/cloud-provider/cloud-provider-orders/cloud-provider-orders.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cloud-provider/cloud-provider-uc/cloud-provider-uc.iml" filepath="$PROJECT_DIR$/cloud-provider/cloud-provider-uc/cloud-provider-uc.iml" />
+    </modules>
+  </component>
+</project>

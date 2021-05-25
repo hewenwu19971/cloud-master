@@ -37,7 +37,7 @@ public class GoodsOrdersImpl implements GoodsOrdersService {
     }
 
     @Override
-    public Object findOrderOrdersbByOrderNo(String toString) {
+    public BsOrderGoods findOrderOrdersbByOrderNo(String toString) {
         QueryWrapper<BsOrderGoods> query = Wrappers.query();
         query.eq("order_sn",toString);
 

@@ -41,8 +41,8 @@ public class CartController {
         TokenUtil tokenManager = new TokenUtil();
         String userName = tokenManager.getUserFromToken(token);
 
-        log.info("购物车{}", cartVo);
-        cartService.addCart(cartVo);
+        log.info("购物车{}{}", userName,cartVo);
+      //  cartService.addCart(cartVo);
         redisTemplate.opsForHash().put(userName + "_cart", cartVo.getSkuId(), cartVo);
         return new Result(true, 1, "成功");
     }

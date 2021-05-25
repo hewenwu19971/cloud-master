@@ -30,8 +30,13 @@ public class BsOrderImpl implements BsOrderService {
     public void modifyOrderStatus(List<String> orderSn) {
         BsOrders bsOrders = new BsOrders();
         bsOrders.setStatus(2);
+
         QueryWrapper<BsOrders> query = Wrappers.query();
-        query.eq("order_sn", orderSn);
-        bsOrdersMapper.update(bsOrders, query);
+        for (String orderId:orderSn) {
+            query.eq("order_sn", orderId);
+            bsOrdersMapper.update(bsOrders, query);
+        }
+
+
     }
 }

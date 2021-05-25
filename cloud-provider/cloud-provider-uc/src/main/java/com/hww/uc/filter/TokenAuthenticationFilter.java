@@ -51,15 +51,13 @@ public class TokenAuthenticationFilter extends BasicAuthenticationFilter {
         try {
             authentication = getAuthentication(req);
         } catch (Exception e) {
-
-                ResponseUtil.out(res, new Result(false,1,"错误",e));
-
+                ResponseUtil.out(res, new Result(false,2,"错误"));
         }
 
         if (authentication != null) {
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } else {
-                ResponseUtil.out(res, new Result(false,1,"错误"));
+                ResponseUtil.out(res, new Result(false,2,"错误"));
         }
         chain.doFilter(req, res);
 

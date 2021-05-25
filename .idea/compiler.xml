@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="cloud-common" target="1.8" />
+      <module name="cloud-common-base" target="1.8" />
+      <module name="cloud-eruake" target="1.8" />
+      <module name="cloud-gateway" target="1.8" />
+      <module name="cloud-master" target="1.8" />
+      <module name="cloud-provider" target="1.8" />
+      <module name="cloud-provider-gas" target="1.8" />
+      <module name="cloud-provider-orders" target="1.8" />
+      <module name="cloud-provider-uc" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="cloud-common-base" options="-parameters" />
+      <module name="cloud-eruake" options="-parameters" />
+      <module name="cloud-gateway" options="-parameters" />
+      <module name="cloud-provider-gas" options="-parameters" />
+      <module name="cloud-provider-orders" options="-parameters" />
+      <module name="cloud-provider-uc" options="-parameters" />
+    </option>
+  </component>
+</project>

@@ -53,12 +53,14 @@ public class OrderController {
      * @return
      */
     @RequestMapping("/confirm")
-    public Result confinrm(@RequestBody PrepareVo prepareVo) {
+    public Result confinrm(@RequestBody PrepareVo prepareVo, HttpServletRequest request) {
 
         log.info("这是{}", prepareVo);
         Map<Object, Object> map = new HashMap<>();
         //Get User Id
-        String userId = "206";
+        TokenUtil tokenUtil = new TokenUtil();
+        String user = tokenUtil.getUserFromToken(request.getHeader("token"));
+        TSysUser userId = tSysUserService.getUserId(user);
         //地址
         BsAddresses address = addressesServic.findAddressById(prepareVo.getAddress());
 
@@ -68,7 +70,7 @@ public class OrderController {
         bsOrders.setArea(address.getArea());
         bsOrders.setProvince(address.getProvince());
         bsOrders.setCity(address.getCity());
-        bsOrders.setMid(Long.valueOf(userId));
+        bsOrders.setMid(Long.valueOf(userId.getId()));
         bsOrders.setConsignee(address.getName());
         bsOrders.setMobile(address.getMobile());
         bsOrders.setOrderSn(prepareVo.getOrderSn());
@@ -95,7 +97,7 @@ public class OrderController {
         log.info(user + "创建订单{}", prepareVo);
         TSysUser userId = tSysUserService.getUserId(user);
         Map<String, Object> map = new HashMap<>();
-        List<Object> list = new ArrayList<>();
+        List<BsOrderGoods> list = new ArrayList<>();
 
         for (int i = 0; i < prepareVo.getCartVos().size(); i++) {
             if (prepareVo.getCount() != null) {
@@ -110,12 +112,12 @@ public class OrderController {
                 for (int j = 0; j < split.length; j++) {
                     BsSpecAttrs specPrice = bsSpecAttrsService.getSpecPrice(split[j]);
                     double aDouble = prepareVo.getTotal_price();
-                    aDouble +=specPrice.getSpecPrice();
+                    aDouble += specPrice.getSpecPrice();
                     prepareVo.setTotal_price(aDouble);
                 }
             } else {
                 BsSpecAttrs specPrice = bsSpecAttrsService.getSpecPrice(specid[i]);
-                prepareVo.setTotal_price( specPrice.getSpecPrice());
+                prepareVo.setTotal_price(specPrice.getSpecPrice());
             }
             long OrderId = SnowFlakeUtil.getSnowflakeId();//id
             log.info("雪花ID{}", OrderId);
@@ -138,7 +140,7 @@ public class OrderController {
             goodsOrdersServic.addGoodsOrder(bsOrderGoods);
             list.add(bsOrderGoods);
 
-           redisTemplate.opsForList().rightPush(userId+"_"+bsOrderGoods.getOrderSn(),list);
+            redisTemplate.opsForHash().put(user + "_order", bsOrderGoods.getOrderSn(), list);
             prepareVo.setTotal_price(0);
         }
 
@@ -148,17 +150,27 @@ public class OrderController {
     }
 
     @RequestMapping("/pay")
-    public Result pay(@RequestBody PayVo payVo,HttpServletRequest request) {
+    public Result pay(@RequestBody PayVo payVo, HttpServletRequest request) {
         TokenUtil tokenUtil = new TokenUtil();
         String user = tokenUtil.getUserFromToken(request.getHeader("token"));
         TSysUser userId = tSysUserService.getUserId(user);
         //BsMembers members = memmberService.findPayPwdByUserId(userId.getId());
         log.info("/pay:{}", payVo);
         if (payVo.getPwd().equals(userId.getPayPwd())) {
+            for (int i = 0; i < payVo.getOrderSn().size(); i++) {
+                List<BsOrderGoods> list = (List<BsOrderGoods>) redisTemplate.opsForHash().get(user + "_order", payVo.getOrderSn().get(i));
+                payVo.setMoney(payVo.getMoney() + list.get(i).getGoodPrice());
+            }
+
+
             if (userId.getBalance() > payVo.getMoney()) {
                 Integer payment = memmberService.payment(payVo, userId, userId.getId());
                 if (payment > 0) {
                     bsOrderService.modifyOrderStatus(payVo.getOrderSn());
+                    for (int i = 0; i < payVo.getOrderSn().size(); i++) {
+                        BsOrderGoods byOrderNo = goodsOrdersServic.findOrderOrdersbByOrderNo(payVo.getOrderSn().get(i));
+                        redisTemplate.opsForHash().delete(user + "_cart", byOrderNo.getGoodId());
+                    }
                     return new Result(true, 1, "成功");
                 }
                 return new Result(false, 2, "系统错误，支付失败");
