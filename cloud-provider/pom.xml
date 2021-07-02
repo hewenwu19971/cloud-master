@@ -34,7 +34,7 @@
         </dependency>
         <dependency>
             <groupId>com.hww</groupId>
-            <artifactId>cloud-common</artifactId>
+            <artifactId>cloud-common-base</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
